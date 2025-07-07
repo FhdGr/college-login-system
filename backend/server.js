@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://college-login-system.vercel.app/",
+      "https://college-login-system.vercel.app",
     ],
     credentials: true,
   })
