@@ -9,18 +9,27 @@ dotenv.config();
 
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(cookieParser());
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://college-login-system.vercel.app",
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://college-login-system.vercel.app",
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS not allowed for this origin"));
+      }
+    },
     credentials: true,
   })
 );
+
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 
